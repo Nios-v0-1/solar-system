@@ -9,7 +9,7 @@ pipeline {
 		stage('VM Node Version') {
 
 			steps {
-
+				sh "echo 'it should work'"
 				sh '''
 					node -v
 					npm -v
