@@ -9,22 +9,12 @@ pipeline {
 				sh '''
 					node -v
 					npm -v
+				  '''
 			}
-	
-
-	
-
 
 		}
 
-	
-
-
 	}
-
-
-
-
 
 }
 
