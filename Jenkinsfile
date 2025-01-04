@@ -5,6 +5,10 @@ pipeline {
 	tools {
 		  nodejs 'nodejd-22-12-0'
 		}
+	options {
+		disableResume()
+		disableConcurrentBuilds abortPrevious:true
+	}
 
 	stages {
 		stage('Installing Dependencies') {
