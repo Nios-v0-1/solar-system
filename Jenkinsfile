@@ -5,6 +5,10 @@ pipeline {
 	tools {
 		  nodejs 'nodejd-22-12-0'
 		}
+	options {
+		disableResume()
+		disableConcurrentBuilds abortPrevious:true
+	}
 
 	stages {
 		stage('Installing Dependencies') {
@@ -48,7 +52,17 @@ pipeline {
 
 				sh "npm test"
 				junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
-}
+					}
+				}
+		}
+		stage('Code Coverage') {
+			steps {
+				withCredentials([usernamePassword(credentialsId: 'mongo-db-creds', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
+					catchError(buildResult: 'SUCCESS', message: 'Oops! it will be fixed the future releases', stageResult: 'UNSTABLE') {
+				    	sh "npm run coverage"
+				    }
+				}
+				publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 				}
 		}
 	}
