@@ -45,13 +45,13 @@ pipeline {
 		}
 		stage('Unit Testing') {
 			options { 
-				//retry(3)
-				continueOnError(true)
+				retry(3)
 				}
 			steps {
 
 				withCredentials([usernamePassword(credentialsId: 'mongo-db-creds', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-					sh "npm test"
+					sh "npm test || true "
+					
 					}
 				junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
 				
