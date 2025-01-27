@@ -45,7 +45,7 @@ pipeline {
 		}
 		stage('Unit Testing') {
 			options { 
-				retry(3)
+				//retry(3)
 				continueOnError(true)
 				}
 			steps {
