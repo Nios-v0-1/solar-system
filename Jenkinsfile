@@ -5,6 +5,10 @@ pipeline {
 	tools {
 		  nodejs 'nodejd-22-12-0'
 		}
+	environment {
+		MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
+		MONGO_DB_CREDS = credentials('mongo-db-creds')
+	}
 	options {
 		disableResume()
 		disableConcurrentBuilds abortPrevious:true
@@ -48,22 +52,20 @@ pipeline {
 				retry(3)
 				}
 			steps {
-
-				withCredentials([usernamePassword(credentialsId: 'mongo-db-creds', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-					sh "npm test || true "
-					
-					}
+				sh 'echo colon separated $MONGO_DB_CREDS'
+				sh 'echo username - $MONGO_DB_CREDS_USR'
+				sh 'echo Password - $MONGO_DB_CREDS_PSW'
+				sh "npm test || true "
 				junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
 				
 				}
 		}
 		stage('Code Coverage') {
 			steps {
-				withCredentials([usernamePassword(credentialsId: 'mongo-db-creds', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-					catchError(buildResult: 'SUCCESS', message: 'Oops! it will be fixed the future releases', stageResult: 'UNSTABLE') {
-				    	sh "npm run coverage"
-				    }
+				catchError(buildResult: 'SUCCESS', message: 'Oops! it will be fixed the future releases', stageResult: 'UNSTABLE') {
+					sh "npm run coverage"
 				}
+				
 				publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 				}
 		}
