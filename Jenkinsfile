@@ -69,15 +69,15 @@ pipeline {
 			}
 		}
 	}
-	post {
-		always {
-			junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'dependency-check-junit.xml'
-			publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-report.html', reportName: 'Dependency Check Report', reportTitles: '', useWrapperFileDirectly: true])	
-			junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
-			publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+	// post {
+	// 	always {
+	// 		junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'dependency-check-junit.xml'
+	// 		junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
+	// 		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-report.html', reportName: 'Dependency Check Report', reportTitles: '', useWrapperFileDirectly: true])	
+	// 		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 
-		}
-	}
+	// 	}
+	// }
 }
 
 
