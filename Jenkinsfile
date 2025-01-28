@@ -8,6 +8,8 @@ pipeline {
 	environment {
 		MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
 		MONGO_DB_CREDS = credentials('mongo-db-creds')
+		MONGO_USERNAME = credentials(mongo-db-username')
+		MONGO_PASSOWRD = credentials(mongo-db-passowrd')
 	}
 	options {
 		disableResume()
@@ -42,8 +44,7 @@ pipeline {
 			       				--prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
 
 						dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml'
-						junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'dependency-check-junit.xml'
-						publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-report.html', reportName: 'Dependency Check Report', reportTitles: '', useWrapperFileDirectly: true])					}
+										}
 				}	
 			}
 		}
@@ -56,7 +57,6 @@ pipeline {
 				sh 'echo username - $MONGO_DB_CREDS_USR'
 				sh 'echo Password - $MONGO_DB_CREDS_PSW'
 				sh "npm test || true "
-				junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
 				
 				}
 		}
@@ -66,8 +66,16 @@ pipeline {
 					sh "npm run coverage"
 				}
 				
-				publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-				}
+			}
+		}
+	}
+	post {
+		always {
+			junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'dependency-check-junit.xml'
+			publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-report.html', reportName: 'Dependency Check Report', reportTitles: '', useWrapperFileDirectly: true])	
+			junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'test-results.xml'
+			publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+
 		}
 	}
 }
