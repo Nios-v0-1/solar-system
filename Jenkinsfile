@@ -9,7 +9,7 @@ pipeline {
 		MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
 		MONGO_DB_CREDS = credentials('mongo-db-creds')
 		MONGO_USERNAME = credentials('mongo-db-username')
-		MONGO_PASSOWRD = credentials('mongo-db-passowrd')
+		MONGO_PASSWORD = credentials('mongo-db-password')
 	}
 	options {
 		disableResume()
