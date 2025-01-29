@@ -10,6 +10,7 @@ pipeline {
 		MONGO_DB_CREDS = credentials('mongo-db-creds')
 		MONGO_USERNAME = credentials('mongo-db-username')
 		MONGO_PASSWORD = credentials('mongo-db-password')
+		SONAR-SCANNER_HOME = tool 'sonarqube-scanner-700'
 	}
 	options {
 		disableResume()
@@ -63,12 +64,29 @@ pipeline {
 		stage('Code Coverage') {
 			steps {
 				catchError(buildResult: 'SUCCESS', message: 'Oops! it will be fixed the future releases', stageResult: 'UNSTABLE') {
-					sh "npm run coverage"
+					sh ''' 
+     						npm run coverage	
+	   					
+					'''
 				}
 				
 			}
 		}
-	}
+		stage('SAST - SonarQube') {
+			steps {      
+					sh 'echo $SONAR_SCANNER_HOME'
+					sh ''' 
+	   					$SONAR_SCANNER_HOME/bin/sonar-scanner \
+						-Dsonar.projectKey=Solar-System-Project \
+						-Dsonar.sources=. \
+						-Dsonar.host.url=http://10.170.20.63:9000 \
+						-Dsonar.token=sqp_71fd68d0e3ede04de464d022dfb5efb22fb97015
+					'''
+				}
+				
+			}
+		
+	       }
 	post {
 		always {
 			junit allowEmptyResults: true, keepProperties: true, stdioRetention: '', testResults: 'dependency-check-junit.xml'
