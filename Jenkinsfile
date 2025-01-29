@@ -10,7 +10,7 @@ pipeline {
 		MONGO_DB_CREDS = credentials('mongo-db-creds')
 		MONGO_USERNAME = credentials('mongo-db-username')
 		MONGO_PASSWORD = credentials('mongo-db-password')
-		SONAR-SCANNER_HOME = tool 'sonarqube-scanner-700'
+		SONAR_SCANNER_HOME = tool 'sonarqube-scanner-700'
 	}
 	options {
 		disableResume()
