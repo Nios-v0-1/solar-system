@@ -39,6 +39,7 @@ pipeline {
 				}
 				stage('OWASP Dependency Check') {
 					steps {
+						sh" exit 0"
 						dependencyCheck additionalArguments: '''
 			   				--scan \'./\'
 			       				--out \'./\'
@@ -78,11 +79,11 @@ pipeline {
 					sh 'echo $SONAR_SCANNER_HOME'
 					sh ''' 
      						$SONAR_SCANNER_HOME/bin/sonar-scanner \
-						-Dsonar.projectKey=solar-system \
-						-Dsonar.token=sqp_5561d152aafb10c7b76043d31ed833dc1dc0bb91
 						-Dsonar.sources=app.js\
-     						-Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-						-Dsonar.host.url=http://localhost:9000/ \
+						-Dsonar.projectKey=solar-system \
+						-Dsonar.sources=. \
+						-Dsonar.host.url=http://localhost:9000 \
+						-Dsonar.token=sqp_5561d152aafb10c7b76043d31ed833dc1dc0bb91
 					'''
 				}
 				
