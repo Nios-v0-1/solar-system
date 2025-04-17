@@ -79,10 +79,10 @@ pipeline {
 					sh ''' 
      						$SONAR_SCANNER_HOME/bin/sonar-scanner \
 						-Dsonar.projectKey=solar-system \
-						-Dsonar.token=sqp_3619fae52a18f9a798ae17ef74f4892a1d5b8453
+						-Dsonar.token=sqp_5561d152aafb10c7b76043d31ed833dc1dc0bb91
 						-Dsonar.sources=app.js\
      						-Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-						-Dsonar.host.url=https://35c4-105-110-171-229.ngrok-free.app \
+						-Dsonar.host.url=http://localhost:9000/ \
 					'''
 				}
 				
