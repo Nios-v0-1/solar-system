@@ -82,7 +82,7 @@ pipeline {
 						-Dsonar.token=sqp_3619fae52a18f9a798ae17ef74f4892a1d5b8453
 						-Dsonar.sources=app.js\
      						-Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-						-Dsonar.host.url=https://c0bc-105-110-118-180.ngrok-free.app \
+						-Dsonar.host.url=https://35c4-105-110-171-229.ngrok-free.app \
 					'''
 				}
 				
